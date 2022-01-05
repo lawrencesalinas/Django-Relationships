@@ -5,7 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 from ..models.patient import Patient
-from ..serializers import PatientSerializer
+from ..serializers import PatientSerializer, PatientReadSerializer
 
 # Create your views here.
 class Patients(APIView):
@@ -13,7 +13,7 @@ class Patients(APIView):
         """Index Request"""
         print(request.session)
         patients = Patient.objects.all()[:10]
-        data = PatientSerializer(patients, many=True).data
+        data = PatientReadSerializer(patients, many=True).data
         return Response(data)
 
     serializer_class = PatientSerializer
@@ -31,7 +31,7 @@ class PatientDetail(APIView):
     def get(self, request, pk):
         """Show request"""
         patient = get_object_or_404(Patient, pk=pk)
-        data = PatientSerializer(patient).data
+        data = PatientReadSerializer(patient).data
         return Response(data)
 
     def patch(self, request, pk):

@@ -5,14 +5,14 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 from ..models.loan import Loan
-from ..serializers import LoanSerializer
+from ..serializers import LoanSerializer, LoanReadSerializer
 
 # Create your views here.
 class Loans(APIView):
     def get(self, request):
         """Index Request"""
         loans = Loan.objects.all()[:10]
-        data = LoanSerializer(loans, many=True).data
+        data = LoanReadSerializer(loans, many=True).data
         return Response(data)
 
     serializer_class = LoanSerializer
@@ -30,7 +30,7 @@ class LoanDetail(APIView):
     def get(self, request, pk):
         """Show request"""
         loan = get_object_or_404(Loan, pk=pk)
-        data = LoanSerializer(loan).data
+        data = LoanReadSerializer(loan).data
         return Response(data)
 
     def patch(self, request, pk):

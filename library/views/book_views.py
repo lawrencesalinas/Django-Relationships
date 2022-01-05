@@ -5,7 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 from ..models.book import Book
-from ..serializers import BookSerializer
+from ..serializers import BookSerializer, BookReadSerializer
 
 # Create your views here.
 class Books(APIView):
@@ -13,7 +13,7 @@ class Books(APIView):
         """Index Request"""
         print(request)
         books = Book.objects.all()[:10]
-        data = BookSerializer(books, many=True).data
+        data = BookReadSerializer(books, many=True).data
         return Response(data)
 
     serializer_class = BookSerializer
@@ -31,7 +31,7 @@ class BookDetail(APIView):
     def get(self, request, pk):
         """Show request"""
         book = get_object_or_404(Book, pk=pk)
-        data = BookSerializer(book).data
+        data = BookReadSerializer(book).data
         return Response(data)
 
     def patch(self, request, pk):

@@ -1,4 +1,5 @@
 from django.db import models
+from .doctor import Doctor
 
 class Patient(models.Model):
   first_name = models.CharField(max_length=100)
@@ -8,5 +9,7 @@ class Patient(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
 
+
+  primary_care_physician = models.ForeignKey(Doctor, related_name='primary_patients', on_delete=models.CASCADE)
   def __str__(self):
     return f"{self.first_name} {self.last_name}"
