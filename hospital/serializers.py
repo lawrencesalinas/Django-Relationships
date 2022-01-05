@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models.doctor import Doctor
 from .models.patient import Patient
+from .models.appointment import Appointment
 
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -22,8 +23,14 @@ class DoctorSerializer(serializers.ModelSerializer):
     model = Doctor
     fields = '__all__'
 
-class DoctorReadSerializer(serializers.ModelSerializer):
-  primary_patients = serializers.StringRelatedField()
+class AppointmentReadSerializer(serializers.ModelSerializer):
+  doctor = DoctorSerializer()
+  patient = PatientReadSerializer()
   class Meta:
-    model = Doctor
+    model = Appointment
     fields = '__all__'
+
+class AppointmentSerializer(serializers.ModelSerializer):
+  class Meta:
+      model = Appointment
+      fields = '__all__'
